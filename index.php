@@ -9,27 +9,21 @@
         $conexao = new PDO($dsn, $usuario, $senha);
 
         $query = '
-            select * from tb_usuarios
+            select * from tb_usuarios where id = 21
         ';
 
         $stmt = $conexao->query($query);
-        $lista = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $usuario = $stmt->fetch(PDO::FETCH_OBJ);
 
-        /* por padrão o retorno do metodo fetchAll é um array de arrays do banco de dados vem com
-        os dois tipo de associação (numero e associativa(o nome da coluna)). Para configurar o tipo
-        da associação do array, devemos por como parâmetro do metodo fetch All o comando PDO::FETCH_NUM
-        para associação numerica ou FETCH_ASSOC para associação com os nomes das colunas da tabela.  */
-
-/*         mas também há o tipo FETCH_OBJ que altera o tipo de retorno do fetchAll, fazendo que ele retorne um array de objetos.
-        quando o retorno é um array de objetos e nao mais um array de arrays, a maneira que fazemos para acessar os objetos do banco de dados muda 
-        invés de ser por exemplo echo $lista[0][nome] vai ficar echo $lista[0]->nome; */
+/*         para fazer consultas de apenas um dado, temos que alterar primeiramente a query com a regra de consultas
+        em seguida mudar o metodo do stmt para somente fetch (as regras anteriormente com o fetechAll funcionam igualmente) */
 
         echo '<pre>';
-        print_r($lista);
+        print_r($usuario);
         echo '</pre>';
 
-        //echo $lista[0]['nome'];
-        echo $lista[0]->nome;
+        //echo $usuario[0]['nome'];
+        echo $usuario->nome;
 
     } catch(PDOException $e){
         echo 'Erro: ' . $e->getCode() . ' Mensagem: ' . $e->getMessage(); 
