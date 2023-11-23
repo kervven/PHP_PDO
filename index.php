@@ -9,28 +9,17 @@
         $conexao = new PDO($dsn, $usuario, $senha);
 
         $query = '
-            create table if not exists tb_usuarios(
-                id int not null primary key auto_increment,
-                nome varchar(50) not null,
-                email varchar(100) not null,
-                senha varchar(50) not null
-            )
+            select * from tb_usuarios
         ';
 
-        $query = '
-            insert into tb_usuarios(
-                nome, email, senha
-            ) values  (
-                "Kerven Kildhery", "kervenkildhery@gmail.com", "123456"
-            )
-        ';
+        $stmt = $conexao->query($query);
+        $lista = $stmt->fetchAll();
 
-        $query = '
-            delete from tb_usuarios
-        ';
+        echo '<pre>';
+        print_r($lista);
+        echo '</pre>';
 
-        $retorno = $conexao->exec($query); 
-        echo $retorno;
+        echo $lista[0]['nome'];
 
 
         //o exec é um metodo de execução de queries(SQL) para o banco de dados de retorno limitado,
