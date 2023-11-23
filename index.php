@@ -10,15 +10,17 @@
             $conexao = new PDO($dsn, $usuario, $senha);
 
             $query = "select * from tb_usuarios where ";
-            $query .= " email = '{$_POST['usuario']}' ";
-            $query .= " AND senha = '{$_POST['senha']}' ";
+            $query .= " email = :usuario ";
+            $query .= " AND senha = :senha ";
 
-            echo $query;
+            $stmt = $conexao->prepare($query);
 
-            $stmt = $conexao->query($query);
+            $stmt->bindValue(':usuario', $_POST['usuario']);
+            $stmt->bindValue(':senha', $_POST['senha']);
+
+            $stmt->execute();
+
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-            echo '<hr>';
-
             echo '<pre>';
             print_r($usuario);
             echo '</pre>';
